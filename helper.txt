@@ -241,9 +241,153 @@ def signupuser(request):
 <button type="submit">Sign UP</button> - просто кнопка, дальше будем ее использовать для входа
 
 </form>
+________________________________________________________________________________________
+7.4
+Создание пользователя
+файл views.py разделяем создание пользователя и аутентификацию
 
-фывфывфывфыв
-фывфыввыфв
+from django.contrib.auth.models import User - омпортируем джанго библиотеку для работы с пользователями
+
+в перемнной def signupuser пишем следующее
+
+    if request.method == 'GET': - значит что пользователь получает гет запрос, и получает форму регистрации
+        return render(request, 'todo/signupusers.html', {'form': UserCreationForm})
+
+
+    else:
+        if request.POST['password1'] == request.POST['password2']: - проверяяет совпадение пароля
+            user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+            user.save() - сохраянет юзера и регистрирует его
+        else:
+            print('hello') - дальше ничего не написали пока
+
+
+{----------код урока выглядит так--------------
+from django.contrib.auth.models import User
+
+
+def signupuser(request):
+    if request.method == 'GET':
+        return render(request, 'todo/signupusers.html', {'form': UserCreationForm})
+    else:
+        if request.POST['password1'] == request.POST['password2']:
+            user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
+            user.save()
+        else:
+            print('hello')
+
+}
+
+_____________________________________________________________________________________________________________________________
+7.5 Обработка ошибок при регистарции
+
+Для начала нужно создать строку в urlpaths в файле urls.py
+
+# ToDos
+    path('current/', views.currenttodos, name='currenttodos'), импортировать инчего не нужно, так как мы новую функцию прописываем в файле views, который находится в приложении TODO
+
+нужно создать в темплейтс хтмл файл, все по стандарту
+
+Дальше в файле views прописываем функцию для current,на которую будет переводить приложение после успешной регистрации на сайте
+
+Работа в def signupuser:
+
+Перед этим ипортируем следующие библиотеки:
+
+from django.shortcuts import render, redirect
+from django.db import IntegrityError
+from django.contrib.auth import login
+
+def signupuser
+	....
+        if request.POST['password1'] == request.POST['password2']:
+            try:
+                user = User.objects.create_user(request.POST['username'], password=request.POST['password1']) - создает юзера
+,который успешно залогинился
+                user.save() - сохраняет его
+                login(request, user) - хуй знает что делает, автор не объяснил, а я и не понял
+                return redirect('currenttodos') - тут понял, она перенаправляет на указанную страницу
+
+            except IntegrityError: -- Обработка исключения, при создании пользователя и при уже имеющемся име пользователя
+                return render(request,
+                              'todo/signupusers.html', 
+                              {'form': UserCreationForm(),
+                               'error': 'That username has already been taken.Pleas choose another username'})-
+		- возвращает на страинцу регистрации и пишет ошибку
+		
+        else: -- тут ошибка не совпадения пароля и его повторного ввода
+            return render(request, 'todo/signupusers.html',
+                          {'form': UserCreationForm(), 'error': 'Password didnt mach'})
+
+	....
+_________________________________________________________________________________________
+7.6 Отображение статуса юзера
+
+Напишем базовый хьмл для отображения на всех старницах проекта
+
+
+{% if user.is_authenticated %} -- показывает зарегестрирован ли юзер
+
+Logged In as {{ user.username }} - если да, то отображает его имя
+
+<a href="#">Logout</a>  - кнопка для разавторизации
+{% else %} -- если нет, то не написали еще код
+
+<a href="#">SignUp</a>
+<a href="#">Login</a>
+
+
+{% endif %} -- закрывает блок иф (дурацкий хтмл)
+
+{% block content %}	- как в предыдущем проекте, базовый блок
+{% endblock %}
+
+Переходим файл currenttodos.html - там у нас страница на которую попадает пользователь, после регистрации
+
+{% extends 'todo/base.html' %}-- сделали привязку к блоку в базе.хтмл
+
+{% block content %}
+
+Current
+
+{% endblock %}
+
+А также сделаем отображение о том что юзер вошел в signupusers.html
+
+{% extends 'todo/base.html' %}
+
+
+{% block content %}
+....... -     		тут код который был до этого в этом файле
+{% endblock %}
+
+Короткий урок, работали только в хтмл
+_______________________________________________________________________________
+7.7 Выход пользователя
+
+в файле urls.py прописываем новый ЮРЛ
+
+
+path('logout/', views.logoutuser, name='logoutuser'),
+
+в файле views создаем переменную logoutuser:
+from django.contrib.auth import login, logout - новая функция
+
+def logoutuser(request):
+    if request.method == 'POST': --- если метод ПОСТ, то
+        logout(request) - выполняет выход пользователя
+        return redirect('home') - возвращает на домашнюю страницу 
+
+Далее нам нужно изменить хтмл файл БАЙЗ:
+
+<form action="{% url 'logoutuser' %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
+
+
+А, ну и создали домашнюю страницу. Все
+_________________________________________________________________________________________________
 
 
 
