@@ -388,23 +388,98 @@ def logoutuser(request):
 
 А, ну и создали домашнюю страницу. Все
 _________________________________________________________________________________________________
+7.8 Вход пользователя Log in
+
+в Urls.py сохдаем новый path для логирования
+
+path('login/', views.loginuser, name='loginuser'),
+создаем в темплейтс шаблон хтмл страницы - loginuser.html
+дальше в шаблоне прописываем такой код
+
+
+{% extends 'todo/base.html' %}
+
+{% block content %}
+
+
+<h1>Login</h1>
+
+<h2>{{ error }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+{{form.as_p}}
+<button type="submit">Login</button>
+
+</form>
+
+{% endblock %}
+
+Так же кнопки пропишем функциональность кнопок на сайте (в файле base.html):
+
+<a href="{% url 'signupusers' %}">SignUp</a>
+<a href="{% url 'loginuser' %}">Login</a>
+
+
+После этого возвращаемся в файл views.py и создаем функция def loginuser
+
+def loginuser(request):
+    if request.method == 'GET':
+        return render(request, 'todo/loginuser.html', {'form': AuthenticationForm()})-перекидывает на страницу аутентификации
+    else:
+        user = authenticate(request, username=request.POST['username'],
+                     password=request.POST['password']) - проверяет совместимост ьпароля и логина
+        if user is None:
+            return render(request, 'todo/loginuser.html', {'form': AuthenticationForm(),
+                          'error': 'User name and password did not match'}) -- если проверка не проходит то
+выкидывает на страницу с ошибкой 
+
+        else:
+            login(request, user) - логинит
+            return redirect('currenttodos')- перебрасывает на старницу current
+
+_________________________________________________________________________________________
+7.9 Модель ToDo
+В этом уроке мы будем рабоать с моделями и админкой
+Заходим в файл model.py 
+Нам нужно реализовать класс ToDo в котором будут следующие параметры
+title, memo, created, datecomplated, important, user
+
+from django.contrib.auth.models import User
+
+class ToDo(models.Model):
+	title = models.CharField(max_length=100) -- описание задачи
+
+	memo = models.TextField(blank=True) -- Описание задачи blank = True значит что это поле не обязательно
+
+	created = models.DateTimeField(auto_now_add=True) -- дата когда создана запись(ставится автоматом)
+
+	datecomplated = models.DateTimeField(null=True, blank=True)-- срок выполнения задачи, null-True
+ставится потому что неважно когда задача будет выполнена, blank то что поле не обязательное
+
+	important = models.BooleanField(default=False) - важность задачи
+
+	
+	user = models.ForeignKey(User, on_delete=models.CASCADE)-- выбор юзера, кто будет реализовывать эту 
+задачу, чтобы ее использовать нужно импортировать User(он выше)
+
+	
+
+    def __str__(self): -- добавили для корректности изображения описания
+        return self.title
+
+
+Далее в файле admin.py вносим следующие изменения
+
+
+from .models import Todo - импорт нашего класса
+
+class TodoAdmin(admin.ModelAdmin):
+    readonly_fields = ('created',) - нужно для отображения поля Created (в котором будет отображаться дата создания записи) 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+admin.site.register(Todo, TodoAdmin) - класс Todo- наш класс в model.py , TodoAdmin - поле created(исходник в классе ToDo)
 
 
 
