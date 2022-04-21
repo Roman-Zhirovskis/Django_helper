@@ -481,15 +481,162 @@ class TodoAdmin(admin.ModelAdmin):
 
 admin.site.register(Todo, TodoAdmin) - класс Todo- наш класс в model.py , TodoAdmin - поле created(исходник в классе ToDo)
 
+_______________________________________________________________________________________
+7.10
+Создание задач
+Нам нужно страница создании задач
+в urls.py создаем новый path с названием create
+
+path('create/', views.createtodo, name='createtodo'),
+
+Переходим в views.py и создаем функцию cretetodo и пока ее оставляем
+в приложении todo создаем новый файл forms.py 
+
+открываем его и импортируем след библиотеки
+
+from django.forms import ModelForm 
+from .models import Todo - наш класс который мы прописывали в моделях 
+
+class TodoForm(ModelForm):  
+    class Meta: 
+        model = Todo - наш класс
+        fields = ['title', 'memo', 'important'] - поля которые мы хотим использовать 
 
 
+После переходи в файл views.py и прописываем следующее
+
+from .forms import TodoForm
+
+и переходим к созданию функции createtodo
+
+    if request.method == 'GET':
+        return render(request, 'todo/createtodo.html', {'form': TodoForm()}) - открывает страницу с формами создания полей задач
+    else:
+        try:
+            form = TodoForm(request.POST) -- пользователь передает созданный задачи сюда и они принимаются
+            newtodo = form.save(commit=False) -- тут они сохраняются в БД
+            newtodo.user = request.user -- привязка к опредленному пользователю
+            newtodo.save() -- сохранит в БД 
+            return redirect('currenttodos') - возвращает нас на страницу кюрэнт(потом перепишем)
+        except ValueError:  -- тут говнятина( в версии 4, такой
+ ошибки быть не может) но мы написали на всякий случай 
+            return render(request, 'todo/createtodo.html',
+                          {'form': TodoForm(), 'error': 'Bratanchik ti cheto napytal'})
+
+________________________________________________________________________________________________
+7.11 список задач
+
+Отображение задач (осуществляются в файле currenttodos)
+
+заходим в views.py изменяем функцию currenttodos
+перед этим импортируем Todo
+from .models import Todo
+todos = Todo.objects.filter(user=request.user, datecomplated__isnull=True) - параметры фильтрации:
+		user=request.user - совпадение автора и просматривателя, 
+		datecomplated__isnull=True  - проверка на время исполнения
 
 
+<ul>
+    {% for todo in todos %}
 
+    <li>
+        {% if todo.important %}<b>{% endif %}{{ todo.title }}{% if todo.important %}</b>{% endif %}- условие,
+если пометка имеет отметку важно, то ее выделают жирным шрифтом
+        {% if todo.memo %} - {{ todo.memo }}{% endif %}
+        </li>
 
+    {% endfor %}
+</ul>
 
+и ебанули такой html
+__________________________________________________________________________________________________________
+7.12 Просмотр и обновление задач
+Сначало введем функционал просмотра записей чебурека
 
+path('todo/<int:todo_pk>', views.viewtodo, name='viewtodo'), --<int:todo_pk>- айди записи
 
+Переходим во views.py
+
+def viewtodo(request, todo_pk - то что прописали в path):
+ 
+    todo = get_object_or_404(Todo -импортировали шаблон, pk=todo_pk - ключ,
+ user=request.user- привязка к определенному пользователю)
+
+    if request.method == 'GET': -- загружает страницу редактирования имеющейся запси
+
+        form = TodoForm(instance=todo - параметр для работы с уже существующем объектом)
+        return render(request, 'todo/details.html', {'todo': todo, 'form': form})
+    else: -- тут идет обработка изменения записи
+        try:
+            form = TodoForm(request.POST - читает ПОСТ запрос, instance=todo)
+            form.save() - сохраняет
+            return redirect('currenttodos') - возвращяет на страницу с записями
+        except ValueError: -- выводит сообщение об ошибке
+            return render(request, 'todo/details.html',
+                          {'todo': todo, 'form': form, 'error': 'Bad Info'})
+
+Идем в файл datailhtml
+
+{% extends 'todo/base.html' %}
+
+{% block content %}
+
+<h2>{{ error }}</h2> -- выводит ошибку, если она есть
+
+<br>
+{{ todo.title }} - загружает название
+<br>
+{{ todo.memo }} - описание
+<form method="POST">
+    {% csrf_token %}
+{{form.as_p}} - импортируеум форму изменения(создания)
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}
+____________________________________________________________________________________________
+7.13 Удаление и завершение задач
+Завершение задачи
+
+В urls.py пишем новый path
+
+path('todo/<int:todo_pk>/complete', views.complatetodo, name='complatetodo'),
+
+Функция похожа на viwstodo, поэтому частично копируем оттуда
+from django.utils import timezone
+
+def complatetodo(request, todo_pk):
+    todo = get_object_or_404(Todo -импортировали шаблон, pk=todo_pk - ключ,
+ user=request.user- привязка к определенному пользователю)
+ 
+    if request.method == 'POST':
+        todo.datecomplated = timezone.now() -- нужно ипортировать таймзон
+        todo.save() -- сохраняем
+        return redirect('currenttodos')-- переводим на старницу текущее
+
+И прописываем такой html в файле details
+
+<form method="POST" action="{% url 'complatetodo' todo.id %}">
+    {% csrf_token %}
+    <button type="submit">Complete</button>
+</form>
+
+Тоже самое делаем с удалением
+
+path('todo/<int:todo_pk>/delete', views.deletetodo, name='deletetodo'),
+
+def deletetodo(request, todo_pk):
+    todo = get_object_or_404(Todo, pk=todo_pk, user=request.user)
+    if request.method == 'POST':
+        todo.delete()
+        return redirect('currenttodos')
+
+<form method="POST" action="{% url 'deletetodo' todo.id %}">
+    {% csrf_token %}
+    <button type="submit">Delete</button>
+</form>
+
+________________________________________________________________________________________________
 
 
 

@@ -1,0 +1,1409 @@
+print ("Система расчета штрафов")
+
+car_speed = 140
+is_town = False
+is_polismen = True
+
+fine_for_1_to_10 = 15
+fine_for_11_to_15 = 23
+fine_for_16_to_20 = 35
+fine_for_21_to_25 = 80 
+fine_for_26_to_30 = 100
+fine_for_31_to_40 = 160
+fine_for_41_to_50 = 200
+fine_for_51_to_60 = 280
+fine_for_61_to_70 = 480
+fine_for_70_and_more = 680
+
+town_speed = 50
+county_speed = 70
+if is_town:
+   over_speed = car_speed - town_speed				САМЫЙ ПЕРВЫЙ КОД НА ПИТОХЕ
+else:
+   over_speed = car_speed - county_speed  
+
+
+
+
+
+if over_speed < 1:
+  print("Скорость не привышена или пошел нахуй камерщик")
+elif over_speed >= 1 and over_speed <= 10:
+  print("Штраф:" + str(fine_for_1_to_10) + "евро")
+elif over_speed >= 11 and over_speed <= 15:
+  print("Штраф:" + str(fine_for_11_to_15) + "евро")
+elif over_speed >= 16 and over_speed <= 20:
+  print("Штраф:" + str(fine_for_16_to_20) +  "евро" + ", 1 штрафной бал")
+elif over_speed >= 21 and over_speed <= 25:
+  print("Штраф:" + str(fine_for_21_to_25) + "евро")
+elif over_speed >= 26 and over_speed <= 30:
+  print("Штраф:" + str(fine_for_26_to_30) + "евро")
+elif over_speed >= 31 and over_speed <= 40:
+  print("Штраф:" + str(fine_for_31_to_40) + "евро")
+elif over_speed >= 41 and over_speed <= 50:
+  print("Штраф:" + str(fine_for_41_to_50) + "евро")
+elif over_speed >= 51 and over_speed <= 60:
+  print("Штраф:" + str(fine_for_51_to_60) + "евро")
+elif over_speed >= 61 and over_speed <= 70:
+  print("Штраф:" + str(fine_for_61_to_70) + "евро" )
+  is_polismen = True
+  print ("Лишение прав") 
+elif over_speed >= 70:
+  print("Штраф:" + str(fine_for_70_and_more) + "евро") 
+  is_polismen = True
+  print ("Лишение прав")     
+______________________________________________________________________________________
+count = 0
+word = "Hello World and suck my dick evrevear, but not tach my bolls"
+for i in word:
+    if  i == "l":
+        count += 1
+
+print("Count:", count ) 
+__________________________________________________________________________________
+n = int(input("Введите длину ; "))
+
+user_list = []
+
+i=0
+for i in range(n):
+    string= "Entar elements #" + str(i +1) + ": "
+    user_list.append(input(string))
+    i += 1
+
+print(user_list)  
+___________________________________________________________________________________
+X = int(input())
+Y = int(input())
+Z = int(input())
+Minutes = ((Z +X)%60)
+Hours = (Y +X//60)
+if (Z + X%60) >= 60:
+    print(Hours + 1)
+    print(Minutes)
+else:
+    print(Hours)
+    print(Minutes)
+____________________________________________________________________________________
+a = int(input("vvedite: "))
+if a <= 1900 or a >= 3000:
+    print("Введите значение от 1900 до 3000")
+    a = int(input("vvedite: "))
+    if a %4 == 0 and a %100 != 0:
+        print("Год высокосный")
+    else:
+        print("Год не высокостный")				ДОРАБОТАТЬ
+else:
+    if a % 4 == 0 and a % 100 != 0:
+        print("Год високосный")
+    elif a % 400 == 0:
+        print("Год високосный")
+    else:
+        print("Год не високостный")
+____________________________________________________________________________________
+калькулятор
+import sys
+x = float(input())
+y = float(input())
+operation = input()
+if operation == "+":
+    summ = x + y
+    print(summ)
+elif operation == "-":
+    summ = x - y
+    print(summ)
+elif operation == "/":
+    if y == 0:
+        print("Деление на 0!")
+    else:
+        summ = x / y
+        print(summ)
+elif operation == "*":
+    summ = x * y
+    print(summ)
+elif operation == "mod" :
+    if y == 0:
+        print("Деление на 0!")
+    else:
+        summ = x % y
+        print(summ)
+elif operation == "pow" :
+    summ = x ** y
+    print(summ)
+elif operation == "div" :
+    if y == 0:
+        print("Деление на 0!")
+    else:
+        summ = x // y
+        print(summ)
+___________________________________________________________________________________________
+import math
+room_type = input("Введите тип комнаты(треуг,прямоуг,круглые): ")
+if room_type == "troin" :
+    a = int(input("Введите а: "))
+    b = int(input("Введите b: "))
+    c = int(input("Введите c: "))
+    p = (a + b + c) / 2
+    print("Площадь вашей комнаты равняется: ", ((p * ((p - a) * (p - b) * (p - c))) ** 0.5))
+elif room_type == "прям" :
+    a = int(input("Введите а: "))
+    b = int(input("Введите b: "))
+    print("Площадь вашей комнаты равняется: ", (a *b))
+elif room_type == "rad":
+    r = int(input("Введите r: "))
+    print("Площадь вашей комнаты равняется: ", (math.pi *(r**2) ))
+___________________________________________________________________________________________________
+x1 = int(input("Введите значение в списке"))
+x2 = int(input("Введите значение в списке"))
+x3 = int(input("Введите значение в списке"))
+x_list = [x1,x2,x3]
+
+if x_list [0] < x_list[1]:
+    x_list [0] , x_list[1]= x_list[1] , x_list[0]		Сам хз как это работает, но все рабоатет
+if x_list [0] < x_list[2]:
+    x_list [0] , x_list[2]= x_list[2] , x_list[0]
+if x_list [1] > x_list[2]:
+    x_list [1] , x_list[2]= x_list[2] , x_list[1]
+
+print('\n'.join(map(str, x_list)))
+_____________________________________________________________________________________________
+i = int(input("Vvedi: "))
+
+x_list1= [11,111,211,311,411,511,611,711,811,911]
+x_list2= [12,13,14,112,113,114,212,213,214,312,313,313,412,413,414,512,513,514,612,613,614,712,713,714,812,813,814,912,913,914]
+if i in x_list2:
+        print("В здании", i, "Програмистов")
+elif i in x_list1:
+        print("В здании", i, "Програмистов")
+elif i % 10 == 1 :
+        if not i in x_list1 :
+                print("В здании", i, "Програмист")		Можно было сократить все
+elif i % 10 == 2 or i % 10 == 3 or i % 10 == 4 :
+        if not i in x_list2 :
+                print("В здании", i, "Програмиста")
+else:
+        print("В здании", i, "Програмистов")
+_________________________________________________________________________________
+написать шахматы, бот для Вадима, программа которая играет сама с собой
+_____________________________________________________________________________
+str1 = input("")
+# initializing substring
+A = 1
+# create a result list
+result = []
+for i in range(0, len(str1), A):
+    # convert to int, after the slicing process
+    result.append(int(str1[i: i + A]))
+    #if result[0] < result[1]:
+           # result[0], result[1] = result[1], result[0]
+x = result[0] + result[1] + result[2]
+y = result[3] + result[4] + result[5]
+if x == y:
+    print("у вас счастливый билетик" , x ,"=",y)
+else:
+    print("У вас обычный билет", x ,"!=",y)
+#print(x,"\n")
+#print('\n'.join(map(str, result)))
+______________________________________________________________________________________________
+znac1,znac2,znac3 = float(input("введите стоим: ")),float(input("введите стоим: ")),float(input("введите стоим: "))
+list_info = [float(znac1),float(znac2),float(znac3)]
+if list_info[0] < list_info[1]:
+    list_info[0] , list_info[1] = list_info[1] , list_info[0]
+if list_info[0] < list_info[2]:
+    list_info[0], list_info[2] = list_info[2] , list_info[1]
+print('\n'.join(map(str, list_info)))
+bull = list_info[0]
+telatik = list_info[2]
+cow = list_info[1]
+n = 100
+i = 0
+x = (bull+ cow +telatik)
+
+while n >= x:
+    n -= x
+    i += 1
+    print('i=',i)
+    print(n)
+    print('\n')
+    if n <= x:						ОЧЕНЬ СЫРОЙ КОД, НО РАБОАТЕТ И ЗБС
+        n_ost = n
+        i2 = 0
+        y = (cow + telatik)
+        while n_ost >= y:
+            n_ost-= y
+            i2 += 1
+            print('i2=', i2)
+            print(n_ost)
+            print('\n')
+            if n_ost <= y:
+                n_ost2 = n_ost
+                z = telatik
+                i3 = 0
+                while n_ost2 >= z:
+                    n_ost2 -= z
+                    i3 += 1
+                    print('i3=', i)
+                    print(n_ost2)
+                    print('\n')
+
+if n_ost2  >= z:
+    print("тут 3", (i + i2 + i3))
+elif i2 > 1:
+    print("тут 2 варианта:",i + i2)
+elif i2 < 1:
+    print("тут 1",i)
+______________________________________________________________________________________
+a,b,c,d = int(input("значение: ")),int(input("значение: ")),int(input("значение: ")),int(input("значение: "))
+b = b +1
+d = d+1
+print()
+for j in range(c, d):
+    print("   ",j,end="")
+print()
+for i in range (a,b):		
+    print(i, end=" \t")
+    for j in range(c,d):
+        print(i*j, end=' \t')
+    print()
+__________________________________________________________________________________________________
+a,b = (int(i)for i in input().split())
+s = 0
+n = 0
+for i in range(a,b+1):
+    if i %3 ==0:
+        print("i=",i)					Говна кусок из жопы, на самом деле збс, у всех так
+        s += i
+        n += 1
+        print("s=",s)
+        print("n=",n)
+sum_chis= s / n
+print(sum_chis)
+_________________________________________________________________________________________________________
+s = "aaaabbcaa"
+i = 0
+j = 0
+z = 0
+k = 0
+if s[0] == s[1]:
+    j += 1
+elif s[0] != s[1]:
+    j += 0
+if s[1] == s[2]:
+    j += 1
+if s[2] == s[3]:
+     j += 1
+if s[3] == s[2]:
+    j += 1
+
+print(s[1]+str(j))
+_________________________________________________________________________
+from collections import Counter
+mylist = [ int(i) for i in input().split()]
+mylist.sort()
+x = [k for k, v in Counter(mylist).items() if v > 1]			#нахождение меньшего значения
+print(x)
+_________________________________________________________________
+n, m, k = (int(i) for i in input().split())  # чтение размеров поля и числа мин
+a = [[0 for j in range(m)] for i in range(n)]  # заполнение поля нулями
+for i in range(k):
+    row, col = (int(i) - 1 for i in input().split())
+    a[row][col] = -1  # расставляем мины
+for i in range(n):
+    for j in range(m):
+        if a[i][j] == 0:  # в этой клетке мины нет, поэтому считаем число мин вокруг
+            for di in range(-1, 2):
+                for dj in range(-1, 2):
+                    ai = i + di
+                    aj = j + dj
+                    # (ai, aj)
+                    if 0 <= ai < n and 0 <= aj < m and a[ai][aj] == -1:				#saper
+                        a[i][j] += 1
+# вывод результата
+for i in range(n):
+    for j in range(m):
+        if a[i][j] == -1:
+            print('*', end='')
+        elif a[i][j] == 0:
+            print('.', end='')
+        else:
+            print(a[i][j], end='')
+    print()
+__________________________________________
+a = [ i for i in input().split()]
+x = input()
+for i, v in enumerate(a):
+    if x == v:
+        print(i, end=" ")					использован метод enumerate, который создает кортеж
+
+if x not in a:
+    print('Отсутствует')
+___________________________________________________________________
+n = 6
+x = (n**2) + 1
+i = 0
+j = 0
+s = [ int(i) for i in range(1,n+1)]
+s1 = [int(i) for i in range(n+1,x)]
+print("s1",s1)
+s2 = [s1[i:i+(n-1)] for i in range(0, len(s1), n -1)]				Промлежуточный этап
+s2.insert(0,s)
+print(s2)
+s3 = []
+for i in s2:
+    x = s2[j]
+    j +=1
+    s3.append(x)
+print('\n'.join(map(str, s3)))
+					НЕУДАЧНЫЙ КОД
+n = 5
+x = (n**2) + 1
+s = [int(i) for i in range(1,n+1)]
+s1 = [int(i) for i in range(n+1,x)]
+s2 = [s1[i:i+(n)] for i in range(0, len(s1), n )]
+s2.insert(0,s)
+list_s3 = []
+list_s3.append(s2[0])
+list_s3.append(s2[1])
+print(list_s3)
+for i in range(5):
+    for j in range(5):
+        print(list_s3[i][j],end=" ")
+    print()
+___________________________________________________________________________________________________________________
+input_x = float(input("vvedi: "))
+def function(input_x):
+    if input_x <= -2:
+        input_x = 1 -(input_x + 2)**2
+
+    elif input_x >= -2 and input_x <= 2:
+        input_x = -(input_x /2)						Первая функция )))
+
+    else :
+        input_x = ((input_x-2)**2) + 1
+    return input_x
+
+print(function(input_x))
+______________________________________________________________________________________________________________________
+lst = [1, -3, 5, -6, -10, 13, 4, 8]
+z = []
+i = 0
+x = 0
+for i in range(len(lst)):
+    x += lst[i]
+    z.append(lst[i])
+    i += 1
+    if x == 0:
+        print("Цикл окончен")					Решил ебать, нихуяж себе, был в шоке от своего долбаебства
+        break
+    print(x)
+j = 0
+b = 0
+for j in range(len(z)):
+    n = z[j] ** 2
+    b += n
+print(b)
+
+_____
+z = []
+x = 0
+
+while True:
+    lst1 = int(input())
+    x += lst1
+    z.append(lst1)
+    if x == 0:
+        print("vse")
+        break
+print(z)								Таже задача, только ввод в столбик 
+j = 0
+b = 0
+for j in range(len(z)):
+     n = z[j] ** 2
+     b += n
+print(b)
+_____________________________________________________________________________________
+# lst = [ [i for i in input().split()] for i in range(3)]
+lst = [ [9,5,3],
+        [0,7,-1],
+        [-5,2,9]]
+# print('\n'.join(map(str, a)))
+x = 0
+j= 0
+for i in range(3):
+    x = 
+    for j in range(3):
+        # lst[i][j] += lst[i][j]				нерешенная задача
+    print()
+
+
+
+
+"""
+9 5 3
+0 7 -1
+-5 2 9
+end     """
+____________________________________________
+def check_password(passw):
+    chech_lowwer = passw.islower()
+    print(chech_lowwer)         # Check for upp or low letter
+    list_passw = list(passw)
+
+    sim_list = ['!', '@', '#', '$', '%', '*']       # chek on symbols using
+    result_sim = list(set(list_passw) & set(sim_list))
+
+    numbers_list = [str(i) for i in range(10)]      #chek on numbers using		Гордость нахуй, использовал set
+    result_num = list(set(passw) & set(numbers_list))
+
+    if len(result_num) >= 1 and chech_lowwer == False and len(result_sim) >= 1 and len(passw) >= 10:
+        print("Perfect password")
+    else:
+        print("Easy peasy")
+
+
+print(check_password("qwerttt1211!"))
+______________________________________________________________
+def count_letters(sentens):
+    lst = list(sentens)
+    n = 0
+    z = 0
+    for i in range(len(lst)):
+        if lst[i].islower():
+            n += 1
+        elif sentens[i].isupper():					Проверка на регистр(isupper,islower)
+            z += 1
+        i += 1
+    print("Количество заглавных символов:", z)
+    print("Количество строчных символов:",n)
+
+
+print(count_letters("Привет, Старина"))
+____________________________________________________________________________________
+from string import ascii_lowercase
+alphab = list(ascii_lowercase)
+alphabet = dict()
+j = 0
+
+for i in range(len(alphab)):					Алфавит
+    alphabet[alphab[i]] = j
+    j += 1
+    print(alphab[i],j)
+_________________________________________________________
+d1 = {'a': 100, 'b': 200, 'c': 333}
+d2 = {'x': 300, 'y': 200, 'z': 777}			Функция объединения словарей (|)
+rez = d1|d2
+print(rez)
+__________________________________________________________________________
+from collections import defaultdict
+n = int(input())
+d = defaultdict(list)
+z = []
+i = 0
+j = 1
+b = 1
+y = 1
+while i != n:
+    inp = str(input(""))
+    if inp in z:
+        inp1 = inp + str(b)
+        b += 1								НЕРЕШЕННАЯ ЗАДАЧА (решить)
+									Изменить валюес как список
+        z.append(inp1)
+        d["name" + str(j)].append(z[i])
+    elif inp not in z:
+        z.append(inp)
+        d["name"+ str(j)].append("OK")
+    j += 1
+    i += 1
+
+for values in d.values():
+    print(', '.join(values))
+____________________________________________________________________________________________________
+countries = {
+    "Sweden": ["Stockholm", "Göteborg", "Malmö"],
+    "Norway": ["Oslo", "Bergen", "Trondheim"],
+    "England": ["London", "Birmingham", "Manchester"],
+    "Germany": ["Berlin", "Hamburg", "Munich"],
+    "France": ["Paris", "Marseille", "Toulouse"]
+}
+
+city = str(input())
+for key, values in countries.items():
+    if city in values:
+
+        print(f"INFO: {city} is a city in {key} ")
+        break
+
+else:
+
+    print(f"ERROR: Country for {city} not found ")
+_______________________________________________________________________________________________
+lst =  input().lower().split() # почему то создает список
+d = {}
+
+for i in range(len(lst)):
+    x = lst.count(lst[i])   # Count the number of items						Создает слвоарь из списка
+    d[lst[i]] = x  # Creat a dict d[key] = value
+# because item not include 2nd repead key and values, we have ready dict
+for key,values in d.items():
+    print(key,values)
+
+_______________________________________________________________________________________________
+d = {}
+print(update_dictionary(d, 1, -1))  # None
+print(d)                            # {2: [-1]}
+update_dictionary(d, 2, -2)
+print(d)                            # {2: [-1, -2]}
+update_dictionary(d, 1, -3)
+print(d)                            # {2: [-1, -2, -3]}
+
+# не добавляйте кода вне функции
+def update_dictionary(d, key, value):
+    # put your python code here
+    if key in d:
+        d[key].append(value)
+        #print('ключ есть')
+    elif key is not d:
+        #d[2*key]=[]
+        if 2*key is d:
+            d[2*key].append(value)									НЕ МОЙ КОД
+            #print('ключ 2*key уже есть')
+        elif (2*key is not d) and d.get(2*key)==None:
+            d[2*key]=[]
+            d[2*key].append(value)
+            #print('создание ключа и + новое значение списка')
+        elif (2*key is not d) and d.get(2*key)!=None:
+            d[2*key].append(value)
+            #print('создание ключа и + значение списка')       
+    return  
+_______________________________________________________________________________________________________
+morze = {'a': '•—', 'b': '—•••', 'c': '—•—•', 'd': '—••',
+         'e': '•', 'f': '••—•', 'g': '——•', 'h': '••••',
+         'i': '••', 'j': '•———', 'k': '—•—', 'l': '•—••',
+         'm': '——', 'n': '—•', 'o': '———', 'p': '•——•',
+         'q': '——•—', 'r': '•—•', 's': '•••', 't': '—',
+         'u': '••—', 'v': '•••—', 'w': '•——', 'x': '—••—',
+         'y': '—•——', 'z': '——••'}
+string = str(input())									ЕБАНЫЙ МАЯК КАКОЙТО МОРЗЕ
+for i in string.lower():
+
+    if i != ' ':
+        print((morze[i]), end= " ")
+
+    else:
+        print()
+__________________________________________________________________________________________________________
+with open(r'C:\Users\tessl\Downloads\dataset_3363_2 (9).txt', 'r') as inf: Взяли строчку из файла
+    s1 = inf.readline()
+    n = []
+    for i in range(len(s1)):
+        if s1[i].isalpha():
+            z = s1[i]
+						#тут гордость ебать, берет элемент и умножает на число после него
+        if s1[i].isdigit() and s1[i + 1].isdigit() == False and s1[i - 1].isdigit() == False:
+            sun = z * int(s1[i])				
+            n.append(sun)
+
+        if s1[i].isdigit() and s1[i + 1].isdigit() == True:
+            sun1 = z * int(s1[i] + s1[i + 1])
+            n.append(sun1)
+
+    x = "".join(n)
+
+with open(r'C:\Users\tessl\Desktop\HomeWork.txt', 'w') as ouf:
+    ouf.write(x)
+__________________________________________________________________________________________________________
+with open(r'C:\Users\tessl\Downloads\dataset_3363_3 (8).txt' , 'r') as inf:
+    n = []
+    for line in inf:
+        line = line.strip()
+        lst = line.lower().split()
+        for i in lst:
+            n.append(i)
+
+    dict = {word: n.count(word) for word in n}
+    print(dict)
+    final_dict = {k: v for k, v in dict.items() if v == max(dict.values())}
+
+    if len(final_dict) >= 2:
+        max_quantity = 1
+        for key, value in final_dict.items():                               Как работает эта часть кода,я не ебу
+            current_quantity = final_dict[key]				    но она работает и пох.	
+            if current_quantity > max_quantity :		 Проверяет список на соотвеисвия значений и подсчитывает их
+               - max_quantity = current_quantity 
+               - word_with_max_quantity = key
+               - value = str(value)
+               - print(word_with_max_quantity, value)
+               - with open(r'C:\Users\tessl\Desktop\HomeWork.txt', 'w') as ouf:
+                  -  most_popular = (word_with_max_quantity + ' ' + str(max_quantity))
+                  -  ouf.write(most_popular)
+
+    else:
+        for key, value in final_dict.items():
+            print(key,value)
+        with open(r'C:\Users\tessl\Desktop\HomeWork.txt', 'w') as ouf:
+            ouf.write(key + ' ' + str(value))
+__________________________________________________________________________________________________________________________
+with open(r'C:\Users\tessl\Downloads\dataset_3363_4 (3).txt' , 'r') as inf:
+    for line in inf:
+        line = line.strip()
+        lst = line.split(";")
+
+        d = {}
+        dict = {}
+        for i in lst[:1]:
+            d[i] = []
+            for j in lst[1::]:
+                d[i].append(j)
+
+        n = 0
+        n_lst = []						первая часть (нужно доработать)
+        for values in d.values():
+            for i in range(len(values)):
+                n += int(values[i])
+                n_lst.append(n)
+        z = 0
+        for i in lst[:1]:
+            dict[i] = []
+            for j in n_lst[-1::]:
+                dict[i].append(j)
+
+
+									Код работает, но ебаный 
+        for values in dict.values():
+            print(values[0]/int(len(n_lst)))
+with open( r'C:\Users\tessl\Downloads\dataset_3363_4 (3).txt', 'r') as inf:
+    q = []
+    for line in inf:
+        line = line.strip()
+        lst = line.split(";")
+        q.append(lst)
+print(q)
+x = 0
+y = 0
+z = 0
+b = 0
+for i in range(len(q)):
+    for j in range(1, 4):
+        if j == 1:
+            x += int(q[i][1])					Вторая часть кода
+            b += 1
+
+        elif j == 2:
+            y += int(q[i][2])
+
+        elif j == 3:
+            z += int(q[i][3])
+
+print(x / len(q), y / len(q), z / len(q))
+__________________________________________________________________________________
+import sys
+print(*sys.argv[1:])		Аргументы, хуй знает для чего они нужны, но поебался минут 30
+____________________________________________________________________________________
+import  requests
+with open(r'C:\Users\tessl\Downloads\dataset_3378_2 (5).txt', 'r') as inf:		Написал, сдал, на сайте не правильно 
+    url = inf.read().strip()							сформулирован ответ.(так что пошел я нахуй со своим ответом)
+#метод strip к передаваемому параметру,  убраtn пробельные символы по краям
+r = requests.get(url)
+with open(r'C:\Users\tessl\Desktop\HomeWork.txt', 'w') as ouf:			Открывает сайт, берет текст и считает количество строк
+    ouf.write(str(len(r.text.splitlines())))
+_____________________________________________________________________________________________
+import  requests
+with open(r'C:\Users\tessl\Downloads\dataset_3378_3 (2).txt', 'r') as inf:
+    url = inf.readline().strip()
+
+n = "https://stepic.org/media/attachments/course67/3.6.3/"
+# к n прибавляется файл находящийся в предыдушем файле
+r = requests.get(url)
+
+while True:
+    x = n + r.text							Немного не хватило практики в реквестах
+    r = requests.get(x)
+    print(r.text.strip())
+    if "We" in r.text.strip():
+    # пизда удивился, что работает , но решение верное
+        break
+
+with open(r'C:\Users\tessl\Desktop\HomeWork.txt', 'w') as ouf:
+    ouf.write(r.text.strip())
+__________________________________________________________________________________________________
+z,n,y,h = ( ( i for i in input() ) for i in range(4))
+dic = dict(zip(z, n))
+
+for i in y:
+    print(dic[i], end="")
+    						# Дешифратор-шифратор-вибратор (пришлось поебаться с поиском ключа по значению)
+print() # нужен для разделения строки
+
+for i in h:
+    for key,values in dic.items():
+        if i == values:
+            print(key,end="")
+_____________________________________________________________________________
+dig = 4 #int(input())
+s = set()
+i = 0
+while i != dig:
+    s.add(input().lower())
+    i += 1
+print(s)							Наличие значений в словаре и их вывод(думаю можно упростить)
+
+lst = [ [i for i in input().lower().split()]  for i in range(3)]
+print(lst)
+print()
+for j in range(len(lst)):
+    for i in range(len(lst[j])):
+        if lst[j][i] not in s:
+            print(lst[j][i])
+___________________________________________________________________________________________
+dig = int(input())
+lst = [ [i for i in input().split()] for i in range(dig)]
+dict1 = {'север': 0, 'запад': 0, 'юг': 0, 'восток': 0}
+dict = {}
+def update_dictionary(dict, key, value):		Решил, изъебался как черт ,идеальное решение было в 6 строчек
+    if key in dict:							вместо моих 14
+        dict[key] += int(value)
+    elif key is not dict:
+        dict[key] = int(value)
+    return
+
+for i in lst:
+    update_dictionary(dict,i[0],i[1])
+print(dict)
+dict1.update( dict )
+print(dict1['восток'] - dict1['запад'], dict1['север'] - dict1['юг'])
+_________
+идеальное решение для задачи выше
+n=int(input())
+d={'север':0,'запад':0,'юг':0,'восток':0}
+for i in range(n):
+    x=input().split()
+    d[x[0]]+=int(x[1])
+print(d['восток']-d['запад'], d['север']-d['юг'])
+______________________________________________________________________________________________
+НАЧАЛ УЧИТЬ ООП
+class Counter:
+    def start_from(self , value = 0):
+        self.value = value
+        print(f"значение = {value} ")
+
+    def increment(self):
+        self.value += 1			Взорвалась голова от нового материала и непонимания как использовать оные
+        print("Vot tak ")		(чуть чуть подсмотрел в коменты)
+
+    def display(self):
+       print(f"Текущее значение счетчика = {self.value} ")
+
+    def reset(self):
+        self.value = 0
+_______________________________________________________________________________________________
+class Point:
+    def set_coordinates(self, x, y):
+        # Define the x ,y coordinate (its ez)
+        self.x = x
+        self.y = y
+
+    def get_distance(self, point):			(второй код, пока делаю на автопилоте,хз как, но получается)
+        #Find the square between 2 point of xy coordinate axis(ось)
+        if isinstance(point, Point):
+            #Check point in class Point
+            return ((self.x - point.x)**2 + (self.y - point.y)**2)**0.5
+
+        else:
+            print("Передана не точка")
+________________________________________________________________________________________________
+class Laptop:
+    def __init__(self, brand, model, price):
+        self.brand = brand
+        self.model = model						Простой класс ноутбуков 
+        self.price = price
+        self.laptop_name = f"{brand} {model}"
+
+laptop1=Laptop('Asus', '18-bdfx', 37000)
+laptop2=Laptop('Samsung', '13-bsdf0xx', 47000)
+___________________________________________________________________________________
+class SoccerPlayer:
+    def __init__(self, name, surname, goals = 0 , assists = 0):
+        self.name = name
+        self.surname = surname
+        self.goals = goals
+        self.assists = assists
+	
+    def score(self, goals = 1):						Все рабоатет збс
+        self.goals += goals
+
+    def make_assist(self, assists = 1):
+        self.assists += assists
+
+    def statistics(self):
+        print(f"{self.surname} {self.name} - голы: {self.goals}, передачи: {self.assists}")
+_____________________________________________________________________
+class Zebra:
+    def __init__(self, count = 0):
+        self.count = count
+
+    def which_stripe(self):			Набиваю руку
+        self.count += 1
+        if self.count % 2 == 0:
+            print("Полоска черная")
+        else:
+            print("Полоска белая")
+_______________________________________________________________________________________
+class Person:
+    def __init__(self, first_name, last_name, age):
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age						Набив руки
+
+    def full_name(self):
+        return f"{self.last_name} {self.first_name}"
+
+    def is_adult(self):
+        return self.age > 18
+_______________________________________________________________________
+class Dog:
+    def __init__(self, name, age):
+        # Initiate a dog
+        self.name = name
+        self.age = age
+
+    def description(self):					Каши в голове меньше, но тем не менее она остается
+        return f"{self.name} is {self.age} years old"		Простые примеры решаются на автомате
+
+    def speak(self,sound):
+        #Return the dog barking
+        self.sound = sound
+        return f"{self.name} says {self.sound}"
+___________________________________________________________________________________________
+class Stack:
+    def __init__(self):
+        # create a empty list
+        self.values = []
+
+    def push(self, item):
+        # append a new element and dont delete any items
+        self.item = item
+        self.values.append(self.item)
+
+    def pop(self):
+        # checks for emptiness and delete last items in list
+        if len(self.values) == 0:
+            print("Empty Stack")
+        else:
+            return self.values.pop(-1)
+
+    def peek(self):
+        if len(self.values) == 0:
+            print( "Empty Stack")
+
+        else:
+            return self.values[-1]
+
+    def is_empty(self):
+        return len(self.values) == 0
+
+    def size(self):
+        return len(self.values)
+______________________________________________________________________________________________
+class UserMail:
+    def __init__(self, login, email):
+        self.login = login
+        self.__email = email
+
+    def get_email(self):
+        return self.__email
+
+    def set_email(self, new_email):			Новая тема геттеры, сеттеры 
+						(решил быстро, показалось легким)
+        
+        if new_email.count("@") == 1 and "." in new_email :
+            self.__email = new_email
+        else:
+            print("Ошибочная почта")
+
+    email = property(fget= get_email, fset= set_email)
+_____________________________________________________________________________________
+class Robot:
+
+    population = 0
+
+    def __init__(self, name):
+        Robot.population += 1							classmethod, staticmethod
+        self.name = name
+        print( f"Робот {self.name} был создан")			Все равноо еще не получается, открываю новую информацию
+							а уебаны и коментов уже все знают, ебаные зазнайки 
+   						(уебан я, так как почему то пропустил 2 урока, каким-то образом)
+    def destroy(self):
+        Robot.population -= 1
+        print(f"Робот {self.name} был уничтожен")
+
+    def say_hello(self):
+        print(f"Робот {self.name} приветствует тебя, особь человеческого рода")
+
+    @classmethod
+    def how_many(cls):
+        print(f"{cls.population}, вот сколько нас еще осталось")
+___________________________________________________________________________________________
+class Money:
+    def __init__(self, dollars, cents):
+        self.total_cents = dollars * 100 + (cents )
+    # create a sum of dollars + cents
+    # multiplication on 100 use for simplify further calculation
+    @property
+    def dollars(self):
+    # getter property are returt a dollars value
+        return self.total_cents // 100
+
+    @dollars.setter
+    def dollars(self,dollars_value):
+    # include dollars value ,check on int or float and rechange old dollars value
+        if not isinstance(dollars_value, (int, float)):
+            print("Error dollars")
+        else:
+            self.total_cents = self.total_cents % 100 + dollars_value * 100
+
+    @property
+    # return cents value				Пришлось переписывать(но +- разобрался)
+    def cents(self):
+        return self.total_cents % 100
+
+    @cents.setter
+    def cents(self,cents_value):
+    #includ new cents value and check for less 100 and on int/float
+        if not isinstance(cents_value, (int, float)) or cents_value >= 100:
+            print("Error cents")
+    # if check seccess set a new value of cents
+        else:
+            self.total_cents = (self.total_cents - (self.total_cents %100))  + cents_value
+
+    def __str__(self):
+    #print account status (dolars-cents) 
+        return f"Ваше состояние составляет {self.dollars} долларов {self.cents} центов"
+_____________________________________________________________________________________________________
+class Square:
+    # deductible attributes
+    # it helpful if u need to calculate smb at the same time
+    #discription: a new side values nullifies attrib area then u set a new values of side
+    def __init__(self, side):
+        self.__side = side
+        self.__area = None
+
+
+
+    @property
+    def side(self):
+        return self.__side					#дополнительный метод обнуления предыдущих записей
+
+    @side.setter
+    def side(self, new_value):
+        self.__side = new_value
+        self.__area = None
+
+    @property
+    def area(self):
+        if self.__area is None:
+            self.__area = self.__side ** 2
+        return self.__area
+_________________________________________________________________________________________________
+class Square:
+    # deductible attributes
+    # it helpful if u need to calculate smb at the same time
+    #discription: a new side values nullifies attrib area then u set a new values of side
+    def __init__(self, side):
+        self.__side = side
+        self.__area = None
+
+    @property
+    def side(self):
+    # getter, aplly the
+        return self.__side				Писал сам по готовому коду чтобы разобраться 
+
+    @side.setter
+    #set another square side value and nullifies a previous value of area
+    def side(self, new_value):
+        self.__side = new_value
+        self.__area = None
+
+    @property
+    def area(self):
+    #show area
+        if self.__area is None:
+            self.__area = self.__side ** 2
+        return self.__area
+_________________________________________________________________________________________________
+from string import digits
+import string
+
+
+class Registration:
+    def __init__(self, login, password):
+        self.login = login
+        self.password = password
+        self.__secret = "U r hacted Pentagon"
+
+    @property
+    def secret(self):
+        s = input("Input ur password")
+        if s == self.password:
+            return self.__secret
+        else:
+            raise ValueError("Access closed")
+
+    @property
+    def login(self):
+        # the login getter
+        # print("getter login called")
+        return self.__login
+
+    @login.setter
+    def login(self, new_login):
+        # print("setter login called")
+        if new_login.count("@") != 1:
+            raise ValueError("Login must include at least one ' @ '")
+        if "." not in new_login:
+            raise ValueError("Login must include at least one ' . '")
+
+        self.__login = new_login
+        # print("Login set successfully \n"
+        #       "Welcome {new_login} user ")
+
+    @staticmethod
+    def is_include_digit(password):
+        for digit in digits:
+            if digit in password:
+                return True
+        return False
+
+    @staticmethod
+    def is_include_upper_register(password):
+        lower_count = sum(map(str.isupper, password))
+        if lower_count > 1:
+            return True
+        return False
+
+    @staticmethod
+    def is_include_only_latin(password):
+        for i in password:
+            if i not in string.ascii_lowercase and i not in string.ascii_uppercase and i not in digits:
+                return False
+        return True
+
+    @staticmethod
+    #chek our pass in popular easy hacking pass
+    def easy_password(new_password):
+        with open(r"C:\Users\tessl\PycharmProjects\pythonProject9\estpass.txt") as inf:
+            passwords = inf.read().split()
+            for password in passwords:
+                if new_password == password:							Просто ахуеть не вставть
+                    return False
+            return True
+			
+    @property
+    def password(self):
+        # the pass getter
+        # print("getter the password called")
+        return self.__password
+
+    @password.setter
+    def password(self, new_password):
+        # print("setter password called")
+        if not Registration.easy_password(new_password):
+            raise ValueError('Ваш пароль содержиться в списке самых легких')
+        if not isinstance(new_password, str):
+            raise TypeError("The password must be a string")
+        if len(new_password) < 4:
+            raise ValueError('The password len must be more than 4 symbol')
+        if len(new_password) > 12:
+            raise ValueError('The password len must be less than 12 symbol')
+        if not Registration.is_include_digit(new_password):
+            raise ValueError('Пароль должен содержать хотя бы одну цифру')
+        if not Registration.is_include_upper_register(new_password):
+            raise ValueError('Пароль должен содержать хотя бы 2 заглавные буквы')
+        if not Registration.is_include_only_latin(new_password):
+            raise ValueError('Пароль должен содержать только латинский алфавит')
+
+
+        self.__password = new_password
+___________________________________________________________________________________________
+class Person:
+    def __init__(self,name, surname, gender = "male"):
+        self.name = name
+        self.surname = surname
+        if not gender in ("male", "female"):
+            print("Не знаю, что вы имели ввиду? Пусть это будет мальчик!")		Метод __str__
+            self.gender = "male"
+        else:
+            self.gender = gender
+
+    def __str__(self):
+        if self.gender == "male":
+            return f"Гражданин {self.surname} {self.name}"
+        else:
+            return f"Гражданка {self.surname} {self.name}"
+________________________________________________________________________________________
+Вернулся в синтаксис
+При решение задания пришлось изучить функцию *args и **kwargs
+
+def print_goods(*args):
+    z = 0
+    for i in args:
+        if isinstance(i, str) and i != '':
+            z += 1
+            print(f"{z}. {i}")							*args функция
+    if z == 0:
+        print("Нет товаров")
+
+
+print_goods('apple', 'banana', 'orange')
+
+print_goods(1, True, 'Грушечка', '', 'Pineapple')
+
+print_goods([], {}, 1, 2)
+___________________________________________________________________________________________
+def info_kwargs(**kwargs):
+    for k,v in sorted(kwargs.items()):				Тоже самое, но на списке(функц - kwargs)
+        print(f"{k} = {v}")
+
+___________________________________________________________________________________________________________________
+class Vector:
+    def __init__(self,*args ):
+        self.values = args
+
+    def __str__(self):
+        if self.values == ():
+            return "Пустой вектор"						То для чего изучил *args
+        else:							Написал за 10 минут, 2 часа горела жопа
+            lst = []
+            for i in self.values:
+                if isinstance(i, int):
+                    lst.append(i)
+            self.values = tuple(sorted(lst))
+            return f"Вектор{self.values}"
+__________________________________________________________________________________________________________________________
+def domain_name(url: str) -> str:
+
+    list_url = ['http://www.', 'https://www.', 'http://', 'https://', 'www.']
+    for i in list_url:
+        if i in url:
+            replaced_url = url.replace(i, "",)						изучил аннотации 
+            end_url = replaced_url.split('.')
+            return end_url[0]
+________________________________________________________________________________________________________________________
+def flat_list(array):
+    flatten_array = []
+    for elem in array:
+        if isinstance(elem, list):
+            flatten_array.extend(flat_list(elem))		Extend method for list(intresting shit)
+        else:
+            flatten_array.append(elem)
+    return flatten_array
+
+____________________________________________________________________________________________________________________
+def split_pairs(a):
+    new_lst = []
+
+    if len(a) % 2 != 0:
+        a += "_"
+    
+    for i in range(0, len(a), 2):
+        new_lst.append(a[i : i + 2])			что за аппенд ебучей ?
+    return new_lst
+_____________________________________________________________________________________________________________________
+def flatten(s):
+    if not s:
+        return []
+
+    if isinstance(s[0], list):						Рекурсия, просто запомнить
+        return flatten(s[0]) + flatten(s[1:])
+
+    return s[:1] + flatten(s[1:])
+____________________________________________________________________________________________________________________
+class Vector:
+
+    def __init__(self, *args):
+        self.values = sorted([i for i in args if isinstance(i, int)])
+
+    def __str__(self):
+        return f"Вектор{tuple(self.values)}" if self.values != [] else "Пустой вектор"
+
+    def __add__(self, other):
+            if isinstance(other, int):
+                return Vector(*(i + other for i in self.values))
+
+            if isinstance(other, Vector) and len(self.values) != len(other.values):
+                print("Сложение векторов разной длины недопустимо")
+
+            if isinstance(other, Vector) and len(self.values) == len(other.values):
+                return Vector(*(x + y for x, y in zip(self.values, other.values)))
+
+            if isinstance(other, str):
+                print(f"Вектор нельзя сложить с {other}")
+
+            else:
+                print(f"Вектор нельзя сложить с {other}")
+    def __mul__(self, other):
+
+        if isinstance(other, int):
+            multiply_generater_tuple = tuple(i * other for i in self.values)
+            return Vector(*multiply_generater_tuple)
+
+        elif isinstance(other, Vector):
+            multiply_two_vector = [x * y for x, y in zip(self.values, other.values)]
+            return Vector(*multiply_two_vector)
+
+        else:
+            return f"Вектор нельзя умножать с {other}"
+________________________________________________________________________________________________________________________
+class ChessPlayer:
+    def __init__(self, name, surname, rating):
+        self.name = name
+        self.surname = surname
+        self.rating = rating
+
+    def __eq__(self, other):
+        if isinstance(other, int):
+            return self.rating == other
+
+        if isinstance(other, ChessPlayer):
+            return self.rating == other.rating
+
+        return "Невозможно выполнить сравнение"
+
+    def __gt__(self, other):
+        if isinstance(other, int):
+            return self.rating > other
+
+        if isinstance(other, ChessPlayer):
+            return self.rating > other.rating
+
+        return "Невозможно выполнить сравнение"
+
+    def __lt__(self, other):
+        if isinstance(other, int):
+            return self.rating < other
+
+        if isinstance(other, ChessPlayer):
+            return self.rating < other.rating
+
+        return "Невозможно выполнить сравнение"
+______________________________________________________________________________________________________________
+class Quadrilateral:
+    def __init__(self, width, height=None):
+        self.width = width
+        self.height = height if height is not None else width    #self.height = height or width
+											Можно было упростить написав or
+    def __str__(self):
+        return f"Прямоугольник размером {self.width}х{self.height}" \
+            if self.width != self.height else f"Куб размером {self.width}х{self.height}"
+
+    def __bool__(self):
+        return self.width == self.height
+___________________________________________________________________________________________________
+from time import perf_counter
+
+class Timer:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        start = perf_counter()
+        print(f"method call used to {self.func.__name__}")		Код из лекции( Метод call)
+        result = self.func(*args, **kwargs)
+        finish = perf_counter()
+        print(f"Func be used for {start - finish}")
+        return result
+
+@Timer
+def avarage(*args):
+    return args[0] - args[-1]
+
+
+# rec = timer(res)(10)
+@Timer
+def recorsion(n):
+    if n <= 2:
+        return 1
+    return recorsion(n - 1) + recorsion(n - 2)
+_________________________________________________________________________________________________
+import json
+
+with open('manager_sales.json', 'r') as file:
+    data = json.load(file)
+
+for item in data:
+    item['total_price'] = []
+    for enture in item['cars']:
+        item['total_price'].append((enture['price']))		JSON расшифровка
+
+e = sorted(data, key=lambda x: sum(x['total_price']), reverse=True)
+for value in e:
+    print(value['manager'], sum(value['total_price']))
+with open('homework_json', 'w') as ouf:
+    ouf.write(f"{e[0]['manager']['first_name']} {e[0]['manager']['last_name']} {sum(e[0]['total_price'])}")
+_______________________________________________________________________________________________________
+import json
+
+with open('group_people.json', 'r') as file:
+    data = json.load(file)
+
+dict_out = {}
+for item in data:
+    dict_out[item['id_group']] = 0
+    for value in item['people']:
+        if value['gender'] == 'Female' and value['year'] > 1977:
+            dict_out[item['id_group']] += 1
+
+e = sorted(dict_out.items(), key=lambda x: x[1], reverse=True)
+print(e[0][0], e[0][-1])
+____________________________________________________________________________________________________________
+import json
+
+with open('Alphabet.json', 'r') as file:
+    data = json.load(file)
+
+with open('Abracadabra.txt', 'r') as read_file:
+    abracadabra = read_file.read()
+
+string_output = ''
+for item in abracadabra:
+    if item in data:
+        print(data[item])
+        string_output += data[item]
+    else:
+        string_output += item
+
+with open('homework.txt' , 'w', encoding='utf-8') as ouf:
+    ouf.write(string_output)
+__________________________________________________________________________________
+import time
+from functools import wraps
+
+def input_func(func):
+    """
+    input_function
+    """
+			
+    @wraps(func)	- нужен для корректного определение названия и документации функции
+    def work_func(*args, **kwargs):
+        """
+        work_func это документ
+        """
+        start_time = time.time()
+
+        func(*args, **kwargs)  --- тут функция выполняется
+
+        time.sleep(0.5)
+
+        print("--- %s seconds ---" % (time.time() - start_time))
+
+    return work_func
+
+@input_func
+def make_work(name):
+    """
+    Name of the worker
+    """
+    print('Рабочий', name, 'Выполнир работу за')
+
+
+make_work('Vasya')
