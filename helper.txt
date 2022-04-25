@@ -637,8 +637,66 @@ def deletetodo(request, todo_pk):
 </form>
 
 ________________________________________________________________________________________________
+7.14 - Отображение завершенных задач
+
+Создадим страницу завершенных задач
+
+path('completed/', views.completedtodos, name='completedtodos'),
+
+В файле views.py создадим функцию complatedtodos
+
+def completedtodos(request):
+    todos = Todo.objects.filter(user=request.user,- привязка к юзеру
+                                datecomplated__isnull=False).order_by('-datecomplated')
+
+datecomplated__isnull=False - показывает функции которые были выполнены
+order_by('-datecomplated') - сортировка по времени (чтобы изменить порядок просто убрать дефис 'datecomplated')
+
+    return render(request, 'todo/completedtodos.html', {'todos': todos})
+
+Создаем шаблон хтмл страницы 
+
+{% extends 'todo/base.html' %}
+
+{% block content %}
+
+Complated
+<ul>
+    {% for todo in todos %}
+
+    <li>
+        <a href="{% url 'viewtodo' todo.id %}">
+        {% if todo.important %}<b>{% endif %}{{ todo.title }}{% if todo.important %}</b>{% endif %}
+        {% if todo.memo %} - {{ todo.memo }}{% endif %}
+        {{ todo.datecomplated | date:'M j Y H:i' }}
+        </a>
+                </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+	
+Для того чтобы чебурек не щашел на наши страницы без логина, сделаем такую тему
+
+from django.contrib.auth.decorators import login_required
+
+Теперь на те страницы которые мы считаем нужня для авторизации навешиваем декоратор, который выглядит так4
+
+@login_required
+def logoutuser(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('home')
+
+При этом в файле settings.py прописываем 
+LOGIN_URL = '/login'
 
 
+Теперь навесим кнопки в файле base
 
+
+<a href="{% url 'createtodo' %}">Create</a>
+<a href="{% url 'currenttodos' %}">Current</a>
+<a href="{% url 'completedtodos' %}">Completed</a>
 
 

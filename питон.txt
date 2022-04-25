@@ -1407,3 +1407,130 @@ def make_work(name):
 
 
 make_work('Vasya')
+____________________________________________________________________________________________
+class NewList(list):
+
+    def __getitem__(self, item):
+        if 1 <= item <= len(self):
+            return super().__getitem__(item - 1)		Наследование
+
+        raise IndexError('index out of range')
+
+
+p1 = NewList([1, 2, 3, 4, 5])
+print(p1[2])
+_________________________________________________________________________
+import timeit
+
+
+class Point:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def calculate(self):
+        while True:
+            if self.x == 1_000_000:
+                return self.x
+
+            self.x += 1
+
+
+class Point2D:
+    __slots__ = ('x', 'y')
+
+    def __init__(self, x, y):				Метод __slots__
+        self.x = x
+        self.y = y
+
+    def calculate(self):
+        while True:
+            if self.x == 1_000_000:
+                return self.x
+
+            self.x += 1
+
+
+p1 = Point(1000, 2000)
+t1 = timeit.timeit(p1.calculate)
+
+print(t1)
+
+p2 = Point2D(1000,2000)
+t2 = timeit.timeit(p1.calculate)
+print(t2)
+print(p1.__sizeof__(), p2.__sizeof__())
+___________________________________________________
+class Wallet:
+    def __init__(self, currency, balance):
+
+        try:
+            if not isinstance(currency, str):
+                raise TypeError
+            elif len(currency) != 3:
+                raise NameError
+            elif not currency.isupper():
+                raise ValueError
+
+            self.currency = currency
+            self.balance = balance
+        except TypeError:
+            print("Неверный тип валюты")
+        except NameError:
+            print("Неверная длина названия валюты")
+        except ValueError:
+            print("Название должно состоять только из заглавных букв")
+
+    def __eq__(self, other):
+        try:
+            if not isinstance(other, Wallet):
+                raise TypeError
+            elif self.currency != other.currency:
+                raise ValueError
+
+            return self.balance == other.balance
+
+        except TypeError:
+            return f"Wallet не поддерживает сравнение с {other}"
+        except ValueError:
+            return "Нельзя сравнить разные валюты"
+
+    def __add__(self, other):
+        try:
+            if not isinstance(other, Wallet):
+                raise TypeError
+            elif self.currency != other.currency:			#Исключения try, except
+                raise ValueError
+
+            return Wallet(other.currency, self.balance + other.balance)
+
+        except (TypeError, ValueError):
+            return "Данная операция запрещена"
+
+    def __sub__(self, other):
+        try:
+            if not isinstance(other, Wallet):
+                raise TypeError
+            elif self.currency != other.currency:
+                raise ValueError
+
+            return Wallet(other.currency, self.balance - other.balance)
+
+        except (TypeError, ValueError):
+            return "Данная операция запрещена"
+
+
+if __name__ == '__main__':
+    wallet1 = Wallet('USD', 50)
+    wallet2 = Wallet('RUB', 100)
+    wallet3 = Wallet('RUB', 150)
+    wallet4 = Wallet(12, 150)  # исключение TypeError('Неверный тип валюты')
+    wallet5 = Wallet('qwerty', 150)  # исключение NameError('Неверная длина названия валюты')
+    wallet6 = Wallet('abc', 150)  # исключение ValueError('Название должно состоять только из заглавных букв')
+    print(wallet2 == wallet3)  # False
+    print(wallet2 == 100)  # TypeError('Wallet не поддерживает сравнение с 100')
+    print(wallet2 == wallet1)  # ValueError('Нельзя сравнить разные валюты')
+    wallet7 = wallet2 + wallet3
+    print(wallet7.currency, wallet7.balance)  # печатает 'RUB 250'
+    print(wallet2 + 45)  # ValueError('Данная операция запрещена')
