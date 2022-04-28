@@ -1376,7 +1376,7 @@ with open('homework.txt' , 'w', encoding='utf-8') as ouf:
     ouf.write(string_output)
 __________________________________________________________________________________
 import time
-from functools import wraps
+from functools import wraps		ДЕКОРАТОР
 
 def input_func(func):
     """
