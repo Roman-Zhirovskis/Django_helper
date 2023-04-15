@@ -1,0 +1,23 @@
+
+[flake8]
+max-line-length = 119
+extend-ignore = 
+    # assignment lambda to variable - okay
+    E731,
+    # unnecessary variable assignment before return statement.
+    R504,   
+
+per-file-ignores = 
+    # imported but unused
+    __init__.py: F401,
+    #just for project git workflow
+    admin.py: F401,
+
+exclude = 
+    'venv/*',
+    'alembic/*',
+    '*tmp*',
+    '*untitled*',
+
+
+
