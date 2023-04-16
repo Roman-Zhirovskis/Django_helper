@@ -14,10 +14,14 @@ per-file-ignores =
     admin.py: F401,
 
 exclude = 
-    'venv/*',
-    'alembic/*',
-    '*tmp*',
-    '*untitled*',
+    venv,
+    .git ,
+    .gitignore ,
+    /migrations/*,
+    env ,
+    __pycache__ ,
+    /staticfiles/* ,
+    /mediafiles/*,
 
 
 
