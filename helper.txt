@@ -699,4 +699,73 @@ LOGIN_URL = '/login'
 <a href="{% url 'currenttodos' %}">Current</a>
 <a href="{% url 'completedtodos' %}">Completed</a>
 
+########################################################################################################################################################
+		Настройка spectacular
+		
+$ pip install drf-spectacular
+
+INSTALLED_APPS = [
+    # ALL YOUR APPS
+    'drf_spectacular',
+] -- нужно сделать отдельной переменной, чтобы 'drf_spectacular', находилась в конце списка
+
+REST_FRAMEWORK = {
+    # YOUR SETTINGS
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+} - в натсрйоках дрф добавить определение спектакуляр библиотеки
+
+############################################
+#               DRF SPECTACULAR
+############################################
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Название', -- название
+    'DESCRIPTION': 'Описание',
+    'VERSION': '1.0.0', -- версия, тоже прописывается кастомно
+
+    'SERVE_PERMISSIONS': [
+        'rest_framework.permissions.IsAuthenticated',
+    ], -- значит, что доступ к документации будет только у авторизованного пользователя
+
+    'SERVE_AUTHENTICATION': [
+        'rest_framework.authentication.BasicAuthentication',
+    ], -- вход на тсраницу документации будет осуществляться по баз.аунт (логин-параль)
+
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        "displayOperationId": True,
+        "syntaxHighlight.active": True,
+        "syntaxHighlight.theme": "arta",
+        "defaultModelsExpandDepth": -1,
+        "displayRequestDuration": True,
+        "filter": True,
+        "requestSnippetsEnabled": True,
+    },
+
+    'COMPONENT_SPLIT_REQUEST': True,
+    'SORT_OPERATIONS': False,
+
+    'ENABLE_DJANGO_DEPLOY_CHECK': False,
+    'DISABLE_ERRORS_AND_WARNINGS': True,
+}
+
+
+Следующий шаг:
+Добавить новый Python Paackage - spectacular, в папку api и создать
+файлы urls и сonfig
+
+
+В файле spectacular/urls.py прописать
+
+from django.urls import path
+from drf_spectacular.views import SpectacularSwaggerView
+
+urlpatterns = [
+    path('', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+]
+
+А в urls.py сделать импорт и обновить urlspatterns
+
+from api.spectacular.urls import urlpatterns as doc_urls
+urlpatterns += doc_urls
+
 
