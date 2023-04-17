@@ -768,4 +768,26 @@ urlpatterns = [
 from api.spectacular.urls import urlpatterns as doc_urls
 urlpatterns += doc_urls
 
+В call_helper_proj/config/urls.py (Там где натсройки)
 
+ path('schema/', SpectacularAPIView.as_view(), name='schema'),
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
