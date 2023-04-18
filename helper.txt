@@ -700,7 +700,7 @@ LOGIN_URL = '/login'
 <a href="{% url 'completedtodos' %}">Completed</a>
 
 ########################################################################################################################################################
-		Настройка spectacular
+		Настройка spectacular (Документация API)
 		
 $ pip install drf-spectacular
 
@@ -733,12 +733,6 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_SETTINGS': {
         'deepLinking': True,
         "displayOperationId": True,
-        "syntaxHighlight.active": True,
-        "syntaxHighlight.theme": "arta",
-        "defaultModelsExpandDepth": -1,
-        "displayRequestDuration": True,
-        "filter": True,
-        "requestSnippetsEnabled": True,
     },
 
     'COMPONENT_SPLIT_REQUEST': True,
@@ -771,6 +765,70 @@ urlpatterns += doc_urls
 В call_helper_proj/config/urls.py (Там где натсройки)
 
  path('schema/', SpectacularAPIView.as_view(), name='schema'),
+ 
+ ########################################################################################################################################################
+ 	НАстройка joser
+	
+$ pip install -U djoser
+
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    (...),
+    'rest_framework',
+    'djoser',
+    (...),
+)
+
+############################################
+#                   DJOSER
+############################################
+DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': '#/activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False,
+    'SERIALIZERS': {},
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=1),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=7),
+} -- подробный разбор позже
+
+Изменим параметры REST_FRAMEWORK in setting.py
+
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+
+И в DRF_spectacular добавить строчки
+[...
+'rest_framework_simplejwt.authentication.JWTAuthentication', ...]
+ 
+ 
+
 	
 	
 	
