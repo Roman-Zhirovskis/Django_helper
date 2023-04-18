@@ -1,0 +1,124 @@
+import datetime
+
+from django.db import models
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+
+class Post(models.Model):
+    ################################## MONTH ################################
+    MONTH = [
+        (1, "January"),
+        (2, "February"),
+        (3, "March"),
+        (4, "April"),
+        (5, "May"),
+        (6, "June"),
+        (7, "July"),
+        (8, "August"),
+        (9, "September"),
+        (10, "October"),
+        (11, "November"),
+        (12, "December"),
+    ]
+
+    @staticmethod
+    def get_current_month() -> int:
+        now = datetime.datetime.now()
+        current_month = now.month
+
+        return current_month
+
+    month = models.PositiveSmallIntegerField(
+        _('month'), choices=MONTH, blank=False, default=get_current_month()
+    )
+
+    ################################### WEEK_DAYS ################################
+    MO = "Mo"
+    TU = "Tu"
+    WE = "We"
+    TH = "Th"
+    FR = "Fr"
+    SA = "Sa"
+    SU = "Su"
+    WEEK_DAYS = [
+        (None, 'empty'),
+        ('MO', 'Monday'),
+        ('TU', 'Tuesday'),
+        ('WE', 'Wednesday'),
+        ('TH', 'Thursday'),
+        ('FR', 'Friday'),
+        ('SA', 'Saturday'),
+        ('SU', 'Sunday'),
+    ]
+
+    @staticmethod
+    def get_current_week() -> int:
+        today = datetime.date.today()
+        weekday = today.weekday()
+        return weekday
+
+    week = models.CharField(
+        _('week_day'), choices=WEEK_DAYS, max_length=150, blank=True, default=get_current_week()
+    )
+
+    ################################## CITYES ################################
+    CITYES = [
+        (
+            'Russia',
+            (
+                ('moskow', 'Moskow'),
+                ('rostov', 'Rostov'),
+                ('irkutsk', 'Irkutsk'),
+            ),
+        ),
+        (
+            'USA',
+            (
+                ('ny', 'New York'),
+                ('boston', 'Boston'),
+            ),
+        ),
+        (None, 'Unknown'),
+    ]
+    city = models.CharField(_("city"), max_length=50, choices=CITYES, blank=True)
+
+    ################################## ENUM_CHOISES ###############################
+    class Rating(models.IntegerChoices):
+        LOW = 1, _('low')
+        MIDDLE = 2, _('midle')
+        HIGH = 3, _('high')
+        __empty__ = _('no rating')
+
+    rating = models.PositiveSmallIntegerField(
+        _("rating"), choices=Rating.choices, blank=True, null=True
+    )
+
+    ################################## DATA_CHOISES ###############################
+
+    class MoonLandings(datetime.date, models.Choices):
+        APOLLO_11 = 1969, 7, 20, 'Apollo 11 (Eagle)'
+        APOLLO_12 = 1969, 11, 19, 'Apollo 12 (Intrepid)'
+        APOLLO_14 = 1971, 2, 5, 'Apollo 14 (Antares)'
+        APOLLO_15 = 1971, 7, 30, 'Apollo 15 (Falcon)'
+        APOLLO_16 = 1972, 4, 21, 'Apollo 16 (Orion)'
+        APOLLO_17 = 1972, 12, 11, 'Apollo 17 (Challenger)'
+
+    apolo = models.DateField(
+        _("apolo"), choices=MoonLandings.choices, default=MoonLandings.APOLLO_11
+    )
+    ################################## ANOTHER_ATR ################################
+
+    name = models.CharField(_("name"), max_length=150)
+    slug = models.SlugField(_("url"))
+
+    class Meta:
+        verbose_name = _("post")
+        verbose_name_plural = _("posts")
+        db_table = 'posts'
+
+    def _str_(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("post_detail", kwargs={"slug": self.slug})

@@ -1,0 +1,249 @@
+########################################CHOISES##################################################
+
+Определим модель 'Post':
+
+from django.db import models
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+
+class Post(models.Model):
+    name = models.CharField(_("name"), maxlength=150)
+    slug = models.SlugField(_("url"))
+
+    class Meta:
+        verbose_name = _("post")
+        verbose_name_plural = _("posts")
+        db_table = 'posts'
+
+    def _str_(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("post_detail", kwargs={"slug": self.slug})
+        
+        
+ и введем туда переменную CHOISES, которая хранит на первом месте инт число в базе данных,
+на втором - строку, которая отображаеться для пользователя
+
+from django.db import models
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+
+
+class Post(models.Model):
+    CHOICES = [
+        (1, "January"),
+        (2, "February"),
+        (3, "March"),
+        (4, "April"),
+        (5, "May"),
+        (6, "June"),
+        (7, "July"),
+        (8, "August"),
+        (9, "September"),
+        (10, "October"),
+        (11, "November"),
+        (12, "December"),
+    ]
+
+и создадим поле month, с аттрибутом POsitiveSmallIntegerField (так, как CHOISES[n][0] - 
+всегда число int)
+    month = models.PositiveSmallIntegerField(_('month'), choices=MONTH)
+
+
+    name = models.CharField(_("name"), maxlength=150)
+    slug = models.SlugField(_("url"))
+
+    class Meta:
+        verbose_name = _("post")
+        verbose_name_plural = _("posts")
+        db_table = 'posts'
+
+    def _str_(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("post_detail", kwargs={"slug": self.slug})
+        
+        
+Параметр choises предназначен только для статистических данных, которые в послдествии не
+будут меняться
+
+Данные для парамтра choises можно поместить в любое место проекта, а потом импортировать 
+их.
+
+#####Пустой список выбора #####
+Джанго по умолчанию выбирает начальный видор, как empty (------), но в маншей модели пустое
+значение не пропустит (blanc != true). 
+Нужно убрать возможность выбора пустого поля, для этого:
+month = models.PositiveSmallIntegerField(_('month'), choices=MONTH, blank=False, default=4)
+blank=False, - уберем возможность пустого поля
+ default=4 - ВВЕДЕМ ДЕФОЛТНОЕ ЗНАЧЕНИЕ МЕСЯЦА 4 - т.е будет отображаться Апрель
+        
+Добавил код, выбора текущего месяца
+
+    @staticmethod
+    def get_current_month() -> int:
+        now = datetime.datetime.now()
+        current_month = now.month
+
+        return current_month
+        
+    month = models.PositiveSmallIntegerField(
+        _('month'), choices=MONTH, blank=False, default=get_current_month()
+    )
+    
+Реализуем choise, где определим список выбора следузим образом
+
+    MO = "Mo"
+    TU = "Tu"
+    WE = "We"
+    TH = "Th"
+    FR = "Fr"
+    SA = "Sa"
+    SU = "Su"
+    WEEK_DAYS = [
+        ('MO', 'Monday'),
+        ('TU', 'Tuesday'),
+        ('WE', 'Wednesday'),
+        ('TH', 'Thursday'),
+        ('FR', 'Friday'),
+        ('SA', 'Saturday'),
+        ('SU', 'Sunday'),
+    ]
+    
+    @staticmethod
+    def get_current_week() -> int:
+        today = datetime.date.today()
+        weekday = today.weekday()
+        return weekday
+
+    week = models.CharField(
+        _('week_day'), choices=WEEK_DAYS, max_length=150, blank=False, default=get_current_month()
+    )
+    
+В Джанго мы можем переопределять внешний вид пустого поля (-------), сделаем это
+
+добавии в поле week (..blank=True)
+
+И обновим список
+    ...
+    SU = "Su"
+    WEEK_DAYS = [
+        (None, 'empty'),
+        ('MO', 'Monday'),
+       ...
+       
+ТЕперь (----), сменилась на empty
+       
+       
+       
+       
+       
+       
+       
+###########ГРУППИРОВАННЫЙ СПИСОК ВЫБОРА#########################
+
+Создадим список выбора:
+CITYES = [
+        ('Russia', (
+            ('moskow', 'Moskow'),
+#где 'Russia' - название группы, 'moskow' - записывается в базу, 'Moskow' - в виде #предситавления в админке
+            ('rostov', 'Rostov'),
+            ('irkutsk', 'Irkutsk'),
+        )
+        ),
+        ('USA', (
+                ('ny', 'New York'),
+                ('boston', 'Boston'),
+        )
+        ),
+        (None, 'Unknown'),
+    ]
+        
+Добавим поле city in DB:
+city = models.CharField(_("city"), max_length=50,
+                            choices=CITYES, blank=True)
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+########### СПИСОК ВЫБОРА В ВИДЕ ПЕРЕЧИСЛЕНИЯ, ENUM #########################
+
+Создадим класс перечислений
+    class Rating(models.IntegerChoices):
+        LOW = 1, _('low')
+        MIDDLE = 2, _('midle')
+        HIGH = 3, _('high')
+        __empty__ = _('no rating')
+
+    rating = models.PositiveSmallIntegerField(
+        _("rating"), choices=Rating.choices, blank=True, null=True
+    )   
+        
+        
+        
+        
+        
+        
+########### Дата в значениях выбора #########################
+
+Импортируем дататайп
+import datatype
+
+Создаеться пользовательский класс, который наследуетсья от datetime.date и models.Choices       
+
+    class MoonLandings(datetime.date, models.Choices):
+        APOLLO_11 = 1969, 7, 20, 'Apollo 11 (Eagle)'
+        APOLLO_12 = 1969, 11, 19, 'Apollo 12 (Intrepid)'
+        APOLLO_14 = 1971, 2, 5, 'Apollo 14 (Antares)'
+        APOLLO_15 = 1971, 7, 30, 'Apollo 15 (Falcon)'
+        APOLLO_16 = 1972, 4, 21, 'Apollo 16 (Orion)'
+        APOLLO_17 = 1972, 12, 11, 'Apollo 17 (Challenger)'
+
+    apolo = models.DateField(
+        _("apolo"), choices=MoonLandings.choices, default=MoonLandings.APOLLO_11)
+        
+################################РАБОТА В КОНСОЛИ###############################
+!Мы можем получить предсиавление из БД, с помощью след функции
+
+In [32]: p12.get_month_display()
+Out[32]: 'January'
+
+In [33]: p12.get_week_display()
+Out[33]: 'Su'
+
+
+In []: p1[0].Rating.LOW.name
+Out[15]: 'LOW'
+
+In []: p1[0].Rating.LOW.value
+Out[]: 1
+
+In []: p12.WEEK_DAYS
+Out[]: 
+[(None, 'empty'),
+ ('MO', 'Monday'),
+ ('TU', 'Tuesday'),
+ ('WE', 'Wednesday'),
+ ('TH', 'Thursday'),
+ ('FR', 'Friday'),
+ ('SA', 'Saturday'),
+ ('SU', 'Sunday')]
+ 
+In [29]: p12.WEEK_DAYS[3]
+Out[29]: ('WE', 'Wednesday')
+        
+In [30]: p12.TU
+Out[30]: 'Tu'
+        
+        
+        
+        
+        
+        
+        
