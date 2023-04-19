@@ -1,0 +1,226 @@
+###############################################################################################
+################### Многие к одному в django поле модели Foreign key field ####################
+###############################################################################################
+Разберем первую модель Категория, которая имеет следующие свойства:
+
+
+class Category(models.Model):
+
+    name = models.CharField(max_length=50)
+    parent = models.ForeignKey(
+        "self", - значит, что ForeignKey ссылаеться сам на себя
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        verbose_name = _("category")
+        verbose_name_plural = _("categories")
+
+    def __str__(self):
+        return f'{self.name} | parent - {self.parent}' if self.parent else self.name
+
+        
+     
+##### models.PROTECT #####
+Разберем аттрибут on_delete=models.PROTECT — запрещает удалять связанную модель
+По нашему уроку создания онлайн магазина Н.Р -> Если у категории "Электроника" будут потомки,
+такие как "Телевизоры", "Мониторы", то удалить родительскую категорию не получиться( вернеться ошибка ProtectorError)
+
+#### null=True ####
+
+Т.к для создания родителя, поле должно быть нуллбл (так сказали в видево)
+
+Небольшая практика:
+Создаем записи в категории Электроника и Бытовая электроника, также Телефоны -родитель.Электроника и Телевизоры-родитель.Электроника
+
+При попытке удалить кат.Электроника через админку, у нас не будет доступа к конемпе удалить, а через териминал шелл, выдаст ошибку ProtectedError
+В то время как при удалении кат.Бытовая электроника, такая возможность будет и ее можно укдалить спокойно.
+
+
+##################### модель Customer, модель Product #####################
+
+Создадим новые модели Customer и Product.
+
+
+class Customer(models.Model):
+
+    name = models.CharField(max_length=200)
+
+    class Meta:
+        verbose_name = _("customer")
+        verbose_name_plural = _("customers")
+
+    def __str__(self):
+        return self.name
+
+
+class Product(models.Model):
+
+    name = models.CharField(max_length=150)
+    category = models.ForeignKey(
+        Category, - многие к одному (к модели Category)
+        (подробнее разберем каждый элемент)
+        on_delete=models.SET_DEFAULT,
+        default=Category.get_default_pk,
+        related_name='+'
+    )
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("product")
+        verbose_name_plural = _("products")
+
+    def __str__(self):
+        return f'{self.name} ({self.price})'
+
+
+##### on_delete = models.PROTECT #####
+
+on_delete=models.SET_DEFAULT - означает, что нужно при удаление родительского поля, будет возвращено дефолтное значение
+        1 Вариант, как поступить
+               поставить
+                default=None, и определить модель нуллобл 
+                null = True
+                
+        2 Вариант сложнее, но функциональнее и  изящнее (будем выебываться)
+
+Придумаем функционал, при котором если не указываеться дочерняя категория, то будет создаваться дефолтная, которую определим в классе Category
+
+class Category(models.Model):
+        ...
+    @classmethod
+    def get_default_pk(cls):
+        obj, created = cls.objects.get_or_create(name="No category")
+        return obj.pk
+        
+        где, get_or_create - создает или возвращет объект
+        
+ и в дефоулт прописываем
+
+     default=Category.get_default_pk,
+
+
+Создадим объект модели Продукт:
+
+In [3]: p1 = Product(name='Phone 1', price=123.12, description='Best phone ever')
+
+p1.category == "No category", она создалась из статикметода класса Category
+
+Присвоим p1 категорию Телефоны и посмотрим, что произойдет если ее удалить:
+
+c1 = Category.objects.get(name="Телефоны")
+
+p1.category = c1
+
+c1.delete()
+
+Категория продукта р1 принимает значение "No category", и все работает
+
+
+
+############################### Модель Order ###########################################
+
+Определяем класс Заказ
+
+class Order(models.Model):
+
+    class StatusChoices(models.TextChoices): - класс перечисленний (разобрал в DjORM chises)
+        NOT_PAID = 'not_paid', 'Не оплачено'
+        PAID = 'paid', 'Оплачено'
+
+    customer = models.ForeignKey(
+        "shop.Customer", - делаем связть Многие ко многим, через текстовую запись.             
+        Это сдлеано для того, чтобы при инициализации класа Ордер, перед классом Кастомер, не возникало ошибки. 
+        on_delete=models.SET_NULL, - при удаление записи Кастомер, будет установлено значение, нул
+        null=True - разрешили нулевое значение(это обязательно)
+    )
+    status = models.CharField(
+        max_length=10,
+        default=StatusChoices.NOT_PAID, - при создании Заказа, поле выбора определяется,
+        как 'Не оплачено'
+        
+        choices=StatusChoices.choices
+    )
+    created_at = models.DateTimeField(auto_now=True) - определяет время при создании записи
+
+    class Meta:
+        verbose_name = _("order")
+        verbose_name_plural = _("orders")
+
+    def __str__(self):
+        return f'{self.id} - {self.customer} ({self.get_status_display()})'
+
+
+############################### Модель OrderItems ########################################
+
+class OrderItems(models.Model):
+
+    product = models.ForeignKey(
+        "shop.Product", -связь с продуктом
+        on_delete=models.PROTECT, - Чтобы мы не могли удалить продукт, а заказ останется
+        related_name='order_items' - для обратной связи в таблице
+    )
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE, - этот атрибут означает, что при удалении будут удалены 
+        все зависимые объекты
+        
+        limit_choices_to={'status': 'not_paid'}, - ограничиваем выборка, 
+        чтобы показывал Ордеры, со статусом - не оплачено.
+        
+        related_name='items'
+    )
+    quantity = models.PositiveSmallIntegerField(default=1)
+    price = models.DecimalField(max_digits=7, decimal_places=2)
+    created_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _("order item")
+        verbose_name_plural = _("order items")
+        unique_together = (('product', 'order'),)
+
+    def __str__(self):
+        return f'{self.order} - {self.product} {self.quantity}'
+
+
+!!!! Небольшое отступление !!!!
+
+Создаем файл .json( допустим есть уже готовая жсон база)
+
+$python3 manage.py loaddata fkdump_data.json - все выгружина, если нет ошибок
+
+24 минута.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

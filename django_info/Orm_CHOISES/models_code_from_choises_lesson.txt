@@ -122,3 +122,20 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("post_detail", kwargs={"slug": self.slug})
+        
+
+Проверим как работает модель:
+
+cu1 = Customer(name='Roma') - создали кастомера
+
+ord = Order(customer=cu1) - создали Заказ
+
+сохранили
+
+cu1.delete() - удалили Заказчика
+!!!!!!!!!!!!!! Заказчик с именем роман удалился, но в консоли он еще определяеться, для этого нужно использовать команду 
+
+ cu1.refresh_from_db() - упадет ошибка, т.к такого пользователя нет
+
+ord.refresh_from_db() -обновит, нашу запись, где Заказчик - это поле Ноне
+
