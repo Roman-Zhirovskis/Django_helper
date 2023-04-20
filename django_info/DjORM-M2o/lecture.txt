@@ -186,6 +186,7 @@ class OrderItems(models.Model):
     def __str__(self):
         return f'{self.order} - {self.product} {self.quantity}'
 
+unique_together = (('product', 'order'),) - ограничение на уникальность, т.к в 1 заказе не может быть 2 товара с одинаковым айди.
 
 !!!! Небольшое отступление !!!!
 
@@ -193,7 +194,122 @@ class OrderItems(models.Model):
 
 $python3 manage.py loaddata fkdump_data.json - все выгружина, если нет ошибок
 
-24 минута.
+############################## Ограничения ForeignKey #######################################
+
+##### to_field #####
+
+По умолчанию, ForeignKey создает связть с id Таблицы. Чтобы изменить это поведение используеться аргумент to_field = 'Имя поля'
+
+##### db_constraint #####
+
+Аргумент принимать по умолчанию True, если определить False, то не будут создаваться ограничения в БД
+
+
+############################## Практики немного ##############################
+
+c1 = Category.objects.create(name='First_cat')
+
+p1 = Product.objects.create(name='Phone 1', category=c1, 
+        description='Best telephone', price = 12.12)
+
+p1.category - выведет имя категории
+
+теперь выведем все продукты, укоторых категория 'First_cat', для этого используем
+        метод _set.
+        
+c1.product_set.all() - выведет все объекты, укоторых кат. 'First_cat'
+
+dir(c1.product_set) - выведет, все методы, доступные объекту
+
+
+c1.product_set.count() - вернет количество объектов c1. категории
+
+
+
+
+
+
+#### Посчитаем, какое количество продуктов содержиться в каждой категории ####
+
+ from django.db.models import Count, Max
+
+cats = Category.objects.annotate(cnt=Count('product')).order_by('cnt') -
+
+Отредактируем запрос
+
+cats.values("name", 'cnt').order_by('-cnt') - теперь в QuerySet ,будет только два поля - имя и количество, отсортированые по убыванию
+
+
+
+
+
+
+#### Выведем Максимальную цену в каждой категории ####
+
+cats2 = Category.objects.annotate(maxprc=Max('product__price').values('name', 'maxprc').order_by('-maxprc'))
+        
+        Max('product__price') - обращаемся к полю прайс, модели продукт.
+
+
+#### Получим количество OrderItems, каждой категории ####
+
+cats3 = Category.objects.annotate(cnt=Count('product__order_items')).values('name', 'cnt')
+
+
+cnt=Count('product__order_items') - обращение к таблице продукт, ее зависимости order_items, т.е ее related_name = 'order_items' (обращаемся по related_name).
+
+
+####  Количество заказов каждой категории ####
+Запрос уже замудренный пздц
+
+cats4 = Category.objects.annotate(cnt=Count('product__order_items__order')).values('name', 'cnt')
+
+Расшифровка запроса: Мы из категории - обращаемся к таблице продукт - потом в таблицу order_items, через related_name - после в таблицу Ордер, по related_name = order
+
+Но есть нюанс, у продукта ТВ, будет 4 ордера, хотя на самом деле их 2. Чтобы это пофиксить нужно:
+
+cats4 = Category.objects.annotate(cnt=Count('product__order_items__order', distinct=True)).values('name', 'cnt')
+
+        distinct=True выбирает уникальные значения
+        
+После этого мы получим количество уникальных товаров у категорий
+
+
+#### Найдем категорию, в которых максимальное количество продуктов и уадлим ордеры в которых эти продукты участвовали ####
+
+1)
+cats = Category.objects.annotate(cnt=Count('product')).order_by('cnt') - получим сортировку по количеству продуктов
+
+2)
+cats[0] - первая запись из продуктов
+
+Чтобы получить наимоновеная техники, нужно воспользоваться методом _set
+
+p = cats[0].product_set.all() - получим список, с техникой "Телевизоры"
+
+Удалим ордеры, в которых присутствуют эти телевизоры (обратимся к таблице Orders), через связное поле, нужно обратиться к продуктам, для этого есть связь через OrderItems и обратимся к айдишникам. 
+
+Order.objects.filter(items_product__in = p) - запись означает, верни нам те заказы, у которых в айтемсах присутствует элементы из списка p (ЧТобы посомтреть, что нашли)
+
+Order.objects.filter(items_product__in = p).delete() - удалит, что мы нашли
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
