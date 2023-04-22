@@ -241,14 +241,12 @@ cats.values("name", 'cnt').order_by('-cnt') - теперь в QuerySet ,буде
 
 
 
-
-
-
 #### Выведем Максимальную цену в каждой категории ####
 
 cats2 = Category.objects.annotate(maxprc=Max('product__price').values('name', 'maxprc').order_by('-maxprc'))
         
         Max('product__price') - обращаемся к полю прайс, модели продукт.
+
 
 
 #### Получим количество OrderItems, каждой категории ####
@@ -257,6 +255,7 @@ cats3 = Category.objects.annotate(cnt=Count('product__order_items')).values('nam
 
 
 cnt=Count('product__order_items') - обращение к таблице продукт, ее зависимости order_items, т.е ее related_name = 'order_items' (обращаемся по related_name).
+
 
 
 ####  Количество заказов каждой категории ####
@@ -273,6 +272,7 @@ cats4 = Category.objects.annotate(cnt=Count('product__order_items__order', disti
         distinct=True выбирает уникальные значения
         
 После этого мы получим количество уникальных товаров у категорий
+
 
 
 #### Найдем категорию, в которых максимальное количество продуктов и уадлим ордеры в которых эти продукты участвовали ####
