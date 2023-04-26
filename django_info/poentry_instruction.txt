@@ -1,0 +1,11 @@
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 -
+
+export PATH="/home/roman/.local/bin:$PATH"
+
+poetry --version
+
+(Краткий тутор по структуре и командам poentry) --- https://habr.com/ru/articles/593529/
+
+poetry install --no-dev (установит только dependencies зависимости)
+
+
