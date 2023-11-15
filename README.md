@@ -1,6 +1,9 @@
 
-<div id="header" align="center">
-  <h1>Django_helper</h1>
-  <p> 👀 Various settings files for projects, and some useful features 👀 </p>
-  <img src="https://www.kanhasoft.com/blog/wp-content/uploads/2018/07/django.jpg" title="Python" alt="Python" width="450"/>&nbsp;
-</div>
+# База знаний и инструментов
+
+## Приложение содержит:
+
+* ```django_info``` - Создание связей, работа с БД
+* ```django_init``` - Готовый проект, с архитектурой + привязкой postgreSQL
+* ```vscode_settings``` - настройки VScode
+* Разные конфигурационные файлы для проектов
