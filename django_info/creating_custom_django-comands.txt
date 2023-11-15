@@ -1,0 +1,13 @@
+Полезные ссылки для создания кастомных django-команд
+
+
+
+######################### 😶‍🌫️️ОБЩИЙ ТУТОР ПО DJANGO-COMMANDS😶‍🌫️️############################
+https://simpleisbetterthancomplex.com/tutorial/2018/08/27/how-to-create-custom-django-management-commands.html
+
+https://tretyakov.net/post/kak-sozdavat-polzovatelskie-komandy-upravleniya-django/ -русскоязычный тутор
+
+########################## 😶‍🌫️️ПЕРЕОПРДЕЛЕНИЕ КОМАНДЫ CUPERUSER😶‍🌫️️ #######################
+https://www.yellowduck.be/posts/creating-django-superuser-programmatically/
+
+https://gist.github.com/andrewp-as-is/cffbf5c0063f9f7f7fa8fb93e07374b9

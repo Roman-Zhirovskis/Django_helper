@@ -22,7 +22,7 @@ pyenv --version
 
 pyenv install 3.11
 
-pyenv versions - проверка установленных версий питона
+pyenv versions - проверка установленных версий питона для проектов
 
 pyenv virtualenv 3.11.3 pyenv_test - создаст env окружение с питоном 3.11.3
 

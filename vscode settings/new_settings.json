@@ -1,0 +1,33 @@
+{
+    "[python]": {
+        "editor.formatOnType": true,
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "editor.fontSize": 16,
+    "black-formatter.importStrategy": "fromEnvironment",
+    "python.formatting.provider": "none",
+    "editor.unicodeHighlight.allowedLocales": {
+        "ru": true
+    },
+    "python.linting.flake8Path": ".flake8",
+    "flake8.importStrategy": "fromEnvironment",
+    "flake8.showNotifications": "onError",
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": true,
+    "git.openRepositoryInParentFolders": "never",
+    "editor.minimap.enabled": false,
+    "tabnine.experimentalAutoImports": true,
+    "git.autofetch": true,
+    "editor.fontFamily": "JetBrains Mono",
+    "terminal.integrated.fontFamily": "monospace",
+    "editor.fontLigatures": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.defaultFoldingRangeProvider": "ms-python.black-formatter",
+    "workbench.colorTheme": "Catppuccin Mocha",
+    "editor.rulers": [
+        100
+    ],
+    "black-formatter.showNotifications": "onError",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+}

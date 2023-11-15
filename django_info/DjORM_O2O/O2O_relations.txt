@@ -1,0 +1,118 @@
+Связь One to one используется, когда запись в таблице связана с одной и только одной записью в другой таблице.
+
+Например, мы будем использовать свзяь 020, для обозначения адреса кафе, т.е у кафе адрес только один и он постоянный
+
+Также, в таблице будет модели раюотников - Уборщик и Администратор.
+По ТЗ, каждый работник закреплен за своим кафе, и не может работать в другом. Но у нас есть возможность поставить одного сотрудника в другом кафе на другой должности.
+Это ограничение придется создавать вручную. 
+
+Создадим табилцу Emplayer(Сотрудник)
+
+class Employee(models.Model):
+    """Сотрудник"""
+
+    class SexChoices(models.TextChoices):
+        MALE = 'm', 'Мужской'
+        FEMALE = 'f', 'Женский'
+
+    entry_date = models.DateField(auto_now_add=True)
+    sex = models.CharField(
+        choices=SexChoices.choices,
+        max_length=1,
+    )
+
+    user = models.OneToOneField(
+        User,
+        # UserModel,
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
+
+    class Meta:
+        verbose_name = _("employee")
+        verbose_name_plural = _("employees")
+
+    def __str__(self):
+        return f'{self.user}: {self.get_sex_display()} ({self.entry_date})'
+        
+Некоторые объяснения:
+1. Автор утвержает, что юзера нужно реализовывать, как:
+        from django.conf import settings
+        class Emplayer
+        ...
+                user = models.OneToOneField(
+                settings.AUTH_USER_MODEL,
+                on_delete=models.CASCADE,
+                primary_key=True,
+        )
+        ...
+        
+На рабочем проекте мы же используем:
+
+        from django.contrib.auth import get_user_model
+
+        User = get_user_model()
+        
+        class Emplayer
+        ...
+                user = models.OneToOneField(
+                User,
+                settings.AUTH_USER_MODEL,
+                on_delete=models.CASCADE,
+                primary_key=True,
+        )
+        ...
+        
+
+Я буду работать, с тем, что я вижу чаще
+
+Метод get_foo_dispay() отображает значение у поля, которое имеет атрибут choices, у нас
+в примере это следующий поле sex = models.CharField(choices=SexChoices.choices). При 
+вызове метода get_foo_dispay() отобразиться значение класса SexChoices, а именно значение
+'Мужской', 'Женский' .
+
+8:32 timelaps
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
