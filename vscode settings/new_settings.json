@@ -19,15 +19,16 @@
     "tabnine.experimentalAutoImports": true,
     "git.autofetch": true,
     "editor.fontFamily": "JetBrains Mono",
+    "terminal.integrated.env.linux": { "PYTHONPATH": "${workspaceFolder}" },
     "terminal.integrated.fontFamily": "monospace",
     "editor.fontLigatures": true,
     "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.defaultFoldingRangeProvider": "ms-python.black-formatter",
-    "workbench.colorTheme": "Catppuccin Mocha",
+    "workbench.colorTheme": "Default Dark+",
     "editor.rulers": [
         100
     ],
     "black-formatter.showNotifications": "onError",
     "editor.formatOnSave": true,
-    "editor.formatOnPaste": true
+    "files.autoSave": "onFocusChange"
 }
