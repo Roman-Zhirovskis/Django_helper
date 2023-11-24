@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "Generics init"
+version = "0.1.0"
+description = "Try to write some generics"
+authors = ["Roman-Zhirovskis <tesslogun@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+flake8-pyproject = "^1.2.3"
+mypy = "^1.7.0"
+
+[tool.poetry.dev-dependencies]
+black = "23.3.0"
+
+
+[tool.flake8]
+ignore = ['E231', 'E241']
+per-file-ignores = [
+    '__init__.py:F401',
+]
+max-line-length = 100
+
+[tool.black]
+line-length = 100
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+[tool.mypy]
+ignore_missing_imports = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
